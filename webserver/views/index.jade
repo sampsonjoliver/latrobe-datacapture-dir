@@ -1,0 +1,61 @@
+extends layout
+
+block includes
+  script(type='text/javascript', src='/javascripts/bootstrap-table.js')
+  link(rel='stylesheet', href='/stylesheets/bootstrap-table.css')
+
+block scripts
+  script(type='text/javascript').
+    function sessionSort(s1,s2) {
+      s1 = +s1;
+      s2 = +s2;
+      if (s1 > s2) return 1;
+      if (s1 < s2) return -1;
+      return 0;
+    };
+  script(type='text/javascript').
+    function controlFormat(val, row, index) {
+      if (!val)
+        return '-';
+      return [
+        '<a title="View" href="/session/' + row.user + '/' + val + '">',
+        '<i class="glyphicon glyphicon-eye-open"></i>',
+        '</a>',
+        '&nbsp;',
+        '<a class="delete" title="Delete" onclick="deleteSession(this); return false;" href="/api/session/' + val + '">',
+        '<i class="glyphicon glyphicon-remove"></i>',
+        '</a>'
+        ].join('');
+      //return '<a class="btn btn-success" href="/session/' + val + '">View Session</a>'; glyphicon glyphicon-remove
+    };
+  script(type='text/javascript').
+    function deleteSession(uri){
+      $.ajax(
+        {
+          url: uri,
+          type: 'DELETE',
+          async: false,
+          complete: function(response, status) {
+            if (status == 'success')
+              $('#sessiondata').bootstrapTable('refresh')
+            else
+              alert('Error: the service responded with: ' + response.status + '\n' + response.responseText)
+          }
+        }
+      )
+      return false
+    }
+block content
+  .row
+    #maincontent.col-md-12.col-xs-12.col-sm-12
+      h1.header= title
+      .table-responsive.panel.panel-default
+        table(id="sessiondata", data-toggle="table", data-url="/api/session", data-cache="false", data-sort-name="sid",
+        data-sort-order="asc", data-show-refresh="true", data-show-toggle="true", data-show-columns="true",
+        data-search="true", data-striped="true", data-pagination="true", data-page-size="25", data-id-field="sid")
+          thead
+            tr
+              th(data-field="sid", data-align="right", data-sortable="true", data-sorter="sessionSort") Session ID
+              th(data-field="user", data-align="center", data-sortable="true") User
+              th(data-field="datetime", data-sortable="true") Session Date
+              th(data-field="sid", data-align="center", data-formatter='controlFormat') Controls

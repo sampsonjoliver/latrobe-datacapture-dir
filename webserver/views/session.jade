@@ -1,0 +1,138 @@
+//
+   Created by Sam on 12/09/2014.
+
+extends layout
+
+block includes
+    script(type='text/javascript', src='/javascripts/bootstrap-table.js')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-table.css')
+    script(src="/javascripts/amcharts.js", type="text/javascript")
+    script(src="/javascripts/amcharts-serial.js", type="text/javascript")
+    script(src="/javascripts/amcharts-dark.js", type="text/javascript")
+
+block scripts
+  script(type='text/javascript').
+    // Execute a request to the api to download the required charting data
+    AmCharts.loadJSON = function(uri) {
+      //return [{"flexionAngle": 2.0, "timestamp": "10-10-2010"}, {"flexionAngle": 2.1, "timestamp": "11-10-2010"}, {"flexionAngle": 2.2, "timestamp": "12-10-2010"}];
+      var sessionData = [];
+      var eventData = [];
+      // Must execute this synchronously
+      $.ajax({
+        type: 'GET',
+        url: uri,
+        dataType: 'json',
+        success: function(result) {
+          eventData = result[0].event;
+          $.each(result, function(i, session) {
+            $.each(session.datapoint, function(j, datapoint) {
+              //datapoint.timestamp = Date.parse(datapoint.timestamp);
+              sessionData.push(datapoint);
+            });
+          });
+        },
+        data: {},
+        async: false
+      });
+      return {"sessionData" : sessionData, "eventData" : eventData};
+    }
+
+  script(type='text/javascript').
+    // On ready, create a chart canvas and download the required data
+    AmCharts.ready(function() {
+      var data = AmCharts.loadJSON("/api/session/#{sessionid}");
+      chartData = data.sessionData.sort(function(a,b) {
+        return a.timestamp < b.timestamp ? -1 : 1;
+      });
+      eventData = data.eventData;
+
+      chart = new AmCharts.AmSerialChart();
+      chart.pathToImages = "http://www.amcharts.com/lib/images/";
+      chart.dataProvider = chartData;
+      chart.categoryField = "timestamp";
+      chart.dataDateFormat = "YYYY-MM-DD JJ:NN:SS.QQQ";
+      chart.theme = "dark";
+      chart.chartCursor = new AmCharts.ChartCursor();
+      chart.chartCursor.categoryBalloonDateFormat = "JJ:NN:SS.QQQ";
+      chart.chartCursor.cursorPosition = "mouse";
+
+      // Add each event series to the chart as an option
+      var graphDataExists = false;
+      $.each(eventData, function(i, event) {
+        $("#dropdownList").append("<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\" onclick=\"drawGraph("+i+"); return false;\">" + event.label + "</a></li>");
+
+        graphDataExists = true;
+      });
+
+      // Set the graph axes properties
+      chart.categoryAxis.parseDates = true;
+      chart.categoryAxis.firstDayOfWeek = 0;
+      chart.categoryAxis.minPeriod = "fff";
+      chart.categoryAxis.minorGridEnabled = true;
+      // Draw the chart to the div
+      if (graphDataExists)
+        drawGraph(0);
+      else
+        chart.write("chartdiv");
+    });
+  script(type='text/javascript').
+    // Get the list of user sessions and add them to the sidebar
+    $(document).ready(function(){
+      $.getJSON("/api/user/#{userid}", function(result) {
+        $.each(result, function(i, session) {
+          if (session.sid == "#{sessionid}")
+            $("#sessionList").append("<li class=\"active\"><a href=\"/session/#{userid}/" + session.sid + "\">Session " + session.sid + "</a></li>");
+          else
+            $("#sessionList").append("<li><a href=\"/session/#{userid}/" + session.sid + "\">Session " + session.sid + "</a></li>");
+        });
+      });
+    });
+  script(type='text/javascript').
+    // Draw an indexed graph to the chart
+    function drawGraph(i) {
+      chart.titles = [];
+      if (typeof graph1 != 'undefined')
+        chart.removeGraph(graph1);
+
+      graph1 = new AmCharts.AmGraph();
+      graph1.valueField = eventData[i].dataField;
+      graph1.bullet = "round";
+      graph1.bulletBorderColor = "#FFFFFF";
+      graph1.bulletBorderThickness = 2;
+      graph1.lineThickness = 2;
+      graph1.lineAlpha = 0.5;
+      graph1.negativeBase = eventData[i].constraintValue;
+      if (eventData[i].constraintType === "lte")
+      {
+        graph1.lineColor = "#0000FF";
+        graph1.negativeLineColor = "#FF0000";
+      }
+      else
+      {
+        graph1.lineColor = "#FF0000";
+        graph1.negativeLineColor = "#0000FF";
+      }
+      graph1.title = eventData[i].label;
+      graph1.xField = "Timestamp";
+      graph1.yField = "Angle in degrees";
+
+      chart.addTitle(eventData[i].label, 15);
+      chart.addGraph(graph1);
+      chart.write("chartdiv");
+    }
+block content
+  .row
+    .col-sm-3.col-md-2.sidebar
+      ul.nav.nav-sidebar
+        li.control: a(href="/") Back
+      ul.nav.nav-sidebar#sessionList
+    #maincontent.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+      h1.header= userid + " "
+        small= title + " " + sessionid
+        .dropdown.pull-right
+          button.btn.btn-default.dropdown-toggle#dropdownMenu1(type="button" data-toggle="dropdown")
+            Dropdown
+            span.caret
+          ul.dropdown-menu#dropdownList(role="menu" aria-labelledby="dropdownMenu1")
+      #chartdiv(style="width:100%; height:400px;")
+
