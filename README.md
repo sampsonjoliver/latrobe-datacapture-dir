@@ -25,9 +25,9 @@ The webserver is built in Express js and requires the use of Node.js. Deployment
 > npm install
 
 Before deployment, the webserver requires a MongoDB database instance to connect to. For more information on how to install and run a MongoDB instance, see the relevant documentation (http://www.mongodb.org/). Once an instance is configured, the server may be setup to use the database by performing the following steps:
-1) Open the file config/config.js
-2) Under module.exports = { ... }, set the username and password fields of both the test and development variables
-3) Modify the db field of both the test and development vars to match the mongodb connection url of your mongodb instance
+1. Open the file config/config.js
+2. Under module.exports = { ... }, set the username and password fields of both the test and development variables
+3. Modify the db field of both the test and development vars to match the mongodb connection url of your mongodb instance
 
 The web application may be deployed either via IntelliJ IDEA, or else manually via the commandline by executing the following command from the root directory of the project:
 > node bin\www
