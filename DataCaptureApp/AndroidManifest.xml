@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.DataCaptureApp">
+    <uses-sdk android:minSdkVersion="14"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <application android:icon="@drawable/icon" android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Light">
+        <activity android:name=".MasterActivity" android:label="@string/activity_master"
+                  android:finishOnTaskLaunch="true"
+                  android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SlaveActivity"  android:label="@string/activity_slave"
+                  android:finishOnTaskLaunch="true"
+                  android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ConfigActivity"/>
+        <activity android:name=".AdvConfigActivity" />
+        <activity android:name=".testing.TestActivity" android:label="@string/activity_testing"/>
+        <activity android:name=".testing.BluetoothActivity"/>
+        <activity android:name=".testing.ServiceTestActivity"/>
+        <activity android:name=".testing.SensorSampleActivity"/>
+        <activity android:name=".testing.DataStoreActivity"/>
+        <activity android:name=".testing.SlaveTestActivity"/>
+        <activity android:name=".testing.MasterTestActivity"/>
+        <activity android:name=".testing.RemoteActivity" />
+        <service android:name=".testing.MainService" android:exported="false"/>
+        <service android:name=".testing.RandomService" android:exported="false"/>
+        <service android:name=".services.BluetoothConnectivityService" android:exported="false"/>
+        <service android:name=".services.SensorSampleService" android:exported="false"/>
+        <service android:name=".services.DataStoreService" android:exported="false"/>
+        <service android:name=".services.RemoteConnectivityService" android:exported="false"/>
+        <service android:name=".MasterService" android:exported="false"/>
+        <service android:name=".SlaveService" android:exported="false"/>
+    </application>
+</manifest>

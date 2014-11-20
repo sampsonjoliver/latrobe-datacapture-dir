@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <EditText android:id="@+id/textStartTimestamp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="Start / Timestamp"
+              android:inputType="number"/>
+    <EditText android:id="@+id/textEndTimestamp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="End / Data"
+              android:inputType="number"/>
+    <Button android:id="@+id/buttonAddData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addData"
+            android:text="Add Data" />
+    <Button android:id="@+id/buttonDeleteData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="deleteData"
+            android:text="Delete Data" />
+    <Button android:id="@+id/buttonRetrieveData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="retrieveData"
+            android:text="Retrieve Data" />
+    <TextView android:id="@+id/textResults"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Results here..." />
+</LinearLayout>

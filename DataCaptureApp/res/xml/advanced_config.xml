@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="@string/pref_config">
+    <PreferenceCategory android:title="@string/pref_category_session">
+        <EditTextPreference android:key="@string/pref_user"
+                            android:title="@string/pref_user_title"
+                            android:summary="@string/pref_user_summary"/>
+        <ListPreference android:entries="@array/pref_event_entries"
+                        android:entryValues="@array/pref_event_values"
+                        android:key="@string/pref_event_type"
+                        android:title="@string/pref_event_type_title"
+                        android:summary="@string/pref_event_type_summary" />
+        <EditTextPreference android:key="@string/pref_event_angle"
+                            android:title="@string/pref_event_angle_title"
+                            android:summary="@string/pref_event_angle_summary"
+                            android:inputType="numberDecimal" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_sampling">
+        <ListPreference android:entries="@array/pref_samplerate_options"
+                        android:entryValues="@array/pref_samplerate_values"
+                        android:key="pref_samplerate"
+                        android:summary="Select sampling rate"
+                        android:title="Sensor Sample Rate" />
+        <CheckBoxPreference android:title="@string/pref_sampling_mag_title"
+                            android:summary="@string/pref_sampling_mag_summary"
+                            android:key="@string/pref_sampling_mag" />
+        <CheckBoxPreference android:title="@string/pref_sampling_gyro_title"
+                            android:summary="@string/pref_sampling_gyro_summary"
+                            android:key="@string/pref_sampling_gyro" />
+        <CheckBoxPreference android:title="@string/pref_sampling_acc_title"
+                            android:summary="@string/pref_sampling_acc_summary"
+                            android:key="@string/pref_sampling_acc" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_bluetooth">
+        <ListPreference android:title="Client Device"
+                        android:summary="Select the paired device that is running the client"
+                        android:key="@string/pref_bluetooth" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_remote">
+        <EditTextPreference android:key="@string/pref_remote_url"
+                            android:title="@string/pref_remote_url_title"
+                            android:summary="@string/pref_remote_url_summary" />
+        <ListPreference android:entries="@array/pref_remote_packet_size_options"
+                        android:entryValues="@array/pref_remote_packet_size_values"
+                        android:key="@string/pref_remote_packet_size"
+                        android:summary="@string/pref_remote_packet_size_summary"
+                        android:title="@string/pref_remote_packet_size_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_store">
+        <Preference android:title="@string/pref_store_title"
+                    android:summary="@string/pref_store_clear_summary"
+                    android:key="@string/pref_store_clear" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

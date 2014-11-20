@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button android:id="@+id/buttonStartMaster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonStartMaster"
+            android:text="Start Master Service" />
+    <Button android:id="@+id/buttonStartSampling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonStartSampling"
+            android:text="Start Slave Sampling" />
+    <TextView android:id="@+id/textStatus"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Status..."/>
+    <TextView android:id="@+id/textResults"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Results..."/>
+    <TextView android:id="@+id/textTimestamps"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:text="Timestamps..." />
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_samplerate_options">
+        <item>1 Hz</item>
+        <item>5 Hz</item>
+        <item>10 Hz</item>
+        <item>20 Hz</item>
+    </string-array>
+    <string-array name="pref_samplerate_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+    </string-array>
+    <string-array name="pref_remote_packet_size_options">
+        <item>Tiny (10 samples)</item>
+        <item>Small (50 samples)</item>
+        <item>Medium (200 samples)</item>
+        <item>Large (500 samples)</item>
+    </string-array>
+    <string-array name="pref_remote_packet_size_values">
+        <item>10</item>
+        <item>50</item>
+        <item>200</item>
+        <item>500</item>
+    </string-array>
+    <string-array name="pref_event_entries">
+        <item>Above ( &gt;= )</item>
+        <item>Below ( &lt;= )</item>
+    </string-array>
+    <string-array name="pref_event_values">
+        <item>gte</item>
+        <item>lte</item>
+    </string-array>
+</resources>
